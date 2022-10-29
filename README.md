@@ -1,1 +1,2 @@
 # SGI
+Signály a informace
