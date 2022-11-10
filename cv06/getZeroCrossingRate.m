@@ -1,0 +1,19 @@
+function [zcr] = getZeroCrossingRate(data, resolution, overleap)
+    TOTAL_SAMPLES = numel(data);
+
+    starts = 1:resolution-overleap:numel(data);
+    starts = starts(1:end-1);
+
+    ranges = arrayfun(@(start) start:min([TOTAL_SAMPLES (start + resolution - 1)]), starts, UniformOutput=false);
+
+    signs = cellfun( ...
+        @(cell) sum( ...
+                arrayfun( ...
+                    @(index) abs( sign(data(cell(index))) - sign(data(cell(index - 1))) ) ...
+                , 2:numel(cell)) ...
+        ) / 2*(resolution-1), ...
+        ranges);
+
+    zcr = signs;
+end
+
